@@ -1,0 +1,18 @@
+# Configuration and build directories
+.settings/
+.sign/
+.build/
+
+# Configuration files needed by Tizen IDE
+.project
+.tproject
+.sdk_delta.info
+.rds_delta
+
+# Build files (CLI)
+.manifest.tmp
+author-signature.xml
+signature1.xml
+
+# Widget file
+*.wgt
