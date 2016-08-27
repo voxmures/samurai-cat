@@ -11,11 +11,13 @@ var lvl = 1, // Current level
 var shopItems = [{
 	name: 'Item 1',
 	price: 20,
-	requiredLvl: 1
+	requiredLvl: 1,
+	modifier: 2
 }, {
 	name: 'Item 2',
 	price: 80,
-	requiredLvl: 2
+	requiredLvl: 2,
+	modifier: 3
 }];
 
 var gui = null;
@@ -48,6 +50,16 @@ function tap() {
 	checkExp();
 }
 
+function buyItem(index) {
+	var shopItem = shopItems[index];
+	if (lvl >= shopItem.requiredLvl && coins >= shopItem.price) {
+		coins -= shopItem.price;
+		gui.setCoinsText(coins);
+		expPerSec *= shopItem.modifier;
+		gui.setShopItemBought(index);
+	}
+}
+
 /* State control methods */
 var create = function() {
 	var game = this;
@@ -56,6 +68,15 @@ var create = function() {
 	if (DEBUG) { console.log('exp:', exp); }
 	gui = new GUI(game);
 	gui.init(shopItems);
+	gui.getTapArea().events.onInputDown.add(tap, this);
+
+	var shopItemsGUI = gui.getShopItems();
+	for (var i = 0; i < shopItemsGUI.length; i++) {
+		(function(index) {
+			shopItemsGUI[index].events.onInputDown.add(function() { buyItem(index); }, this);
+		})(i);
+	}
+
 	game.time.events.loop(Phaser.Timer.SECOND, incrExp, game);
 
 	GUI(game);	// Set the GUI

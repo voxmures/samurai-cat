@@ -1,8 +1,10 @@
 var GUI = function(game) {
 	this.game = game;
 
+	var tap_area = null;
 	var shop_area = null;
 	var lvl_txt = null;
+	var coin_txt = null;
 
 	var currentItem = null;
 	var items = [];
@@ -51,9 +53,7 @@ var GUI = function(game) {
 		        nextItem_tw.interpolation(function(v, k){
 		            return Phaser.Math.bezierInterpolation(v, k);
 		        });
-			    nextItem_tw.start();
-
-				
+			    nextItem_tw.start();		
 				break;
 		}
 	};
@@ -129,6 +129,7 @@ var GUI = function(game) {
 			item_spr.addChild(item_txt);
 			item_spr.addChild(price_txt);
 			item_spr.addChild(requiredLvl_txt);
+			item_spr.inputEnabled = true;
 
 			shop_area.addChild(item_spr);
 
@@ -137,8 +138,33 @@ var GUI = function(game) {
 		}
 	};
 
+	this.getTapArea = function() {
+		return tap_area;
+	};
+
+	this.getShopItems = function() {
+		return items;
+	};
+
+	this.setShopItemBought = function(index) {
+		items[index].inputEnabled = false;
+		var g = game.add.graphics(0, -20);
+		g.beginFill(0x000000, 0.5);
+		g.drawCircle(0, 0, game.world.width / 2);
+		g.endFill();
+		var soldOut_spr = game.add.sprite(0, -20, 'soldout');
+		soldOut_spr.anchor.set(0.5);
+
+		items[index].addChild(g);
+		items[index].addChild(soldOut_spr);
+	};
+
 	this.setLvlText = function(lvl) {
 		lvl_txt.setText('Lvl ' + lvl);
+	};
+
+	this.setCoinsText = function(coins) {
+		coin_txt.setText(coins);
 	};
 
 	this.init = function(shopItems) {
@@ -149,12 +175,11 @@ var GUI = function(game) {
 		paintScreenLimits(game);
 		/* ------------------------- */
 
-		var tap_area = game.add.graphics(game.world.centerX, game.world.centerY);
+		tap_area = game.add.graphics(game.world.centerX, game.world.centerY);
 		tap_area.beginFill(0x00FF00, 0);
 		tap_area.drawCircle(0, 0, game.world.width);
 		tap_area.endFill();
 		tap_area.inputEnabled = true;
-		tap_area.events.onInputDown.add(tap, this);
 
 		var shop_btn = game.add.sprite(game.world.centerX, 310, 'shop_btn');
 		shop_btn.anchor.set(0.5);
@@ -176,7 +201,7 @@ var GUI = function(game) {
 		// Shop header
 		var coin_spr = game.add.sprite(-60, -140, 'coin');
 		coin_spr.anchor.set(0.5);
-		var coin_txt = game.add.text(20, -10, coins, { font: '18px Arial', fill: '#FFFFFF', align: 'center' });
+		coin_txt = game.add.text(20, -10, coins, { font: '18px Arial', fill: '#FFFFFF', align: 'center' });
 		coin_spr.addChild(coin_txt);
 		lvl_txt = game.add.text(20, -151, 'Lvl ' + lvl, { font: '18px Arial', fill: '#FFFFFF', align: 'center' });
 
