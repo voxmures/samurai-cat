@@ -35,4 +35,6 @@ You can run the application on any modern web browser serving the index file wit
 
 ## License
 
+The music is owned by [Eric Matyas](http://soundimage.org/).
+
 The content of this project itself is licensed under the [Creative Commons Attribution 4.0 license](https://creativecommons.org/licenses/by/4.0/), and the underlying source code used to format and display that content is licensed under the [MIT license](http://opensource.org/licenses/mit-license.php).
