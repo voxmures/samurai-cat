@@ -3,7 +3,7 @@ var playState = function(game) {
 };
 
 var lvl = 1, // Current level
-	threshold = 60, // Required experience to level up
+	threshold = 20, // Required experience to level up
 	exp = 0, // Current experience
 	expPerSec = 1, // Experience per second
 	coins = 100;
@@ -12,12 +12,14 @@ var shopItems = [{
 	name: 'Item 1',
 	price: 20,
 	requiredLvl: 1,
-	modifier: 2
+	modifier: 2,
+	isBought: false
 }, {
 	name: 'Item 2',
-	price: 80,
+	price: 90,
 	requiredLvl: 2,
-	modifier: 3
+	modifier: 3,
+	isBought: false
 }];
 
 var gui = null;
@@ -27,11 +29,25 @@ function calcThreshold() {
 	return (Math.sqrt(Math.pow(lvl, 3)) | 0) * 60;
 }
 
+function lvlUp() {
+	lvl++;
+	gui.setLvlText(lvl);
+
+	var inItemsIndexes = shopItems
+	.map(function(item, index) {
+		if (!item.isBought && item.requiredLvl == lvl && coins >= item.price) { return index; } 
+		return null; 
+	})
+	.filter(function(index) { return (index != null ? true : false) });
+
+	gui.setShopItemsIn(inItemsIndexes);
+}
+
 function checkExp() {
 	if (DEBUG) { console.log('exp:', exp); }
 	if (exp >= threshold) {
 		exp %= threshold;
-		lvl++; gui.setLvlText(lvl);
+		lvlUp();
 		threshold = calcThreshold();
 		if (DEBUG) {
 			console.log('Lvl:', lvl);
@@ -52,11 +68,21 @@ function tap() {
 
 function buyItem(index) {
 	var shopItem = shopItems[index];
-	if (lvl >= shopItem.requiredLvl && coins >= shopItem.price) {
+	if (!shopItem.isBought && lvl >= shopItem.requiredLvl && coins >= shopItem.price) {
 		coins -= shopItem.price;
 		gui.setCoinsText(coins);
 		expPerSec *= shopItem.modifier;
+		shopItem.isBought = true;
 		gui.setShopItemBought(index);
+
+		var outItemsIndexes = shopItems
+		.map(function(item, index) { 
+			if (!item.isBought && lvl >= item.requiredLvl && coins < item.price) { return index; } 
+			return null; 
+		})
+		.filter(function(index) { return (index != null ? true : false) });
+
+		gui.setShopItemsOut(outItemsIndexes);
 	}
 }
 
@@ -67,7 +93,7 @@ var create = function() {
 
 	if (DEBUG) { console.log('exp:', exp); }
 	gui = new GUI(game);
-	gui.init(shopItems);
+	gui.init(shopItems, { lvl: lvl, coins: coins });
 	gui.getTapArea().events.onInputDown.add(tap, this);
 
 	var shopItemsGUI = gui.getShopItems();

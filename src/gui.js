@@ -101,7 +101,7 @@ var GUI = function(game) {
 		g.drawCircle(0, 0, window.innerWidth);
 	};
 
-	var paintShopItems = function(shopItems) {
+	var paintShopItems = function(shopItems, player) {
 		var game = this.game;
 
 		for (var i = 0; i < shopItems.length; i++) {
@@ -129,7 +129,16 @@ var GUI = function(game) {
 			item_spr.addChild(item_txt);
 			item_spr.addChild(price_txt);
 			item_spr.addChild(requiredLvl_txt);
-			item_spr.inputEnabled = true;
+			
+			if (player.lvl >= shopItems[i].requiredLvl && player.coins >= shopItems[i].price) {
+				item_spr.inputEnabled = true;
+			} else {
+				var mask = game.add.graphics(0, -20);
+				mask.beginFill(0x000000, 0.5);
+				mask.drawCircle(0, 0, window.innerWidth / 2);
+				mask.endFill();
+				item_spr.addChild(mask);
+			}
 
 			shop_area.addChild(item_spr);
 
@@ -159,6 +168,27 @@ var GUI = function(game) {
 		items[index].addChild(soldOut_spr);
 	};
 
+	this.setShopItemsIn = function(itemsIdxs) {
+		for (var i = 0; i < itemsIdxs.length; i++) {
+			var item = items[itemsIdxs];
+			item.inputEnabled = true;
+			item.removeChildAt(item.children.length - 1);
+		}
+	};
+
+	this.setShopItemsOut = function(itemsIdxs) {
+		for (var i = 0; i < itemsIdxs.length; i++) {
+			var item = items[itemsIdxs];
+			item.inputEnabled = false;
+
+			var g = game.add.graphics(0, -20);
+			g.beginFill(0x000000, 0.5);
+			g.drawCircle(0, 0, game.world.width / 2);
+			g.endFill();
+			item.addChild(g);
+		}
+	};
+
 	this.setLvlText = function(lvl) {
 		lvl_txt.setText('Lvl ' + lvl);
 	};
@@ -167,7 +197,7 @@ var GUI = function(game) {
 		coin_txt.setText(coins);
 	};
 
-	this.init = function(shopItems) {
+	this.init = function(shopItems, player) {
 		var game = this.game;
 
 		/*   Only for DEVELOPMENT    */
@@ -201,15 +231,15 @@ var GUI = function(game) {
 		// Shop header
 		var coin_spr = game.add.sprite(-60, -140, 'coin');
 		coin_spr.anchor.set(0.5);
-		coin_txt = game.add.text(20, -10, coins, { font: '18px Arial', fill: '#FFFFFF', align: 'center' });
+		coin_txt = game.add.text(20, -10, player.coins, { font: '18px Arial', fill: '#FFFFFF', align: 'center' });
 		coin_spr.addChild(coin_txt);
-		lvl_txt = game.add.text(20, -151, 'Lvl ' + lvl, { font: '18px Arial', fill: '#FFFFFF', align: 'center' });
+		lvl_txt = game.add.text(20, -151, 'Lvl ' + player.lvl, { font: '18px Arial', fill: '#FFFFFF', align: 'center' });
 
 		shop_area.addChild(coin_spr);
 		shop_area.addChild(lvl_txt);
 
 		// Shop content
-		paintShopItems(shopItems);
+		paintShopItems(shopItems, player);
 
 		var openShop_sfx = game.add.audio('shop_sfx');
 		var closeShop_sfx = game.add.audio('close_sfx');
