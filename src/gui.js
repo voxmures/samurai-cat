@@ -147,7 +147,7 @@ var GUI = function(game) {
 		}
 	};
 
-	this.paintExp = function(exp) {
+	this.paintExp = function(exp, critic) {
 		var game = this.game;
 
 		var group = game.add.group();
@@ -161,6 +161,8 @@ var GUI = function(game) {
 
 		var disturbance = game.rnd.integerInRange(-10, 10);
 		group.position.setTo(game.world.centerX - (group.width / 2) + disturbance, game.world.centerY);
+
+		if (critic) { group.scale.set(1.5, 1.5); }
 
 		var tween = game.add.tween(group)
 		.to({ y: '-90', alpha: 0}, 700);

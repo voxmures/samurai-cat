@@ -7,6 +7,8 @@ var lvl = 1, // Current level
 	exp = 0, // Current experience
 	expPerSec = 1, // Experience per second
 	expPerTap = 1, // Experience per tap
+	criticChance = 0.05,
+	criticModifier = 1.3,
 	coins = 100;
 
 var shopItems = [{
@@ -69,8 +71,17 @@ function incrExp() {
 function tap() {
 	var game = this;
 
-	exp += expPerTap;
-	gui.paintExp(expPerTap);
+	var temp = expPerTap;
+	var critic = false;
+	// Check for critics
+	var rand = game.rnd.realInRange(0.0, 1.0);
+	if (rand <= criticChance) {
+		temp = Math.round(temp * criticModifier);
+		critic = true;
+	}
+
+	exp += temp;
+	gui.paintExp(temp, critic);
 
 	checkExp();
 }
