@@ -147,6 +147,29 @@ var GUI = function(game) {
 		}
 	};
 
+	this.paintExp = function(exp) {
+		var game = this.game;
+
+		var group = game.add.group();
+		var offset = 0;
+		exp = exp.toString().split('');
+		for (var index in exp) {
+			var number = game.add.sprite(offset, 0, 'numbers', 'number_' + exp[index] + '.png');
+			group.add(number);
+			offset += (parseInt(exp[index]) == 1 ? 9 : 14);
+		}
+
+		var disturbance = game.rnd.integerInRange(-10, 10);
+		group.position.setTo(game.world.centerX - (group.width / 2) + disturbance, game.world.centerY);
+
+		var tween = game.add.tween(group)
+		.to({ y: '-90', alpha: 0}, 700);
+		tween.onComplete.add(function() { group.destroy(); });
+		tween.start();
+
+		game.world.bringToTop(shop_area);
+	}
+
 	this.getTapArea = function() {
 		return tap_area;
 	};

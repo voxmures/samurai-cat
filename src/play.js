@@ -6,6 +6,7 @@ var lvl = 1, // Current level
 	threshold = 20, // Required experience to level up
 	exp = 0, // Current experience
 	expPerSec = 1, // Experience per second
+	expPerTap = 1, // Experience per tap
 	coins = 100;
 
 var shopItems = [{
@@ -57,12 +58,20 @@ function checkExp() {
 }
 
 function incrExp() {
+	var game = this;
+
 	exp += expPerSec;
+	gui.paintExp(expPerSec);
+
 	checkExp();
 }
 
 function tap() {
-	exp++;
+	var game = this;
+
+	exp += expPerTap;
+	gui.paintExp(expPerTap);
+
 	checkExp();
 }
 
