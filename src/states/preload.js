@@ -13,7 +13,7 @@ var preload = function() {
 };
 
 var create = function() {
-	game.state.start('play');
+	game.state.start('home');
 }
 
 preloadState.prototype = {

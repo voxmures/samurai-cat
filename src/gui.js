@@ -23,6 +23,8 @@ var GUI = function(game) {
 	}];
 	var currentScreen = screens[0];
 
+	var isOpen = false;
+
 	var rotate = function(direction) {
 		switch(currentScreen.name) {
 			case 'shop':
@@ -236,9 +238,39 @@ var GUI = function(game) {
 		tap_area.endFill();
 		tap_area.inputEnabled = true;
 
-		var shop_btn = game.add.sprite(game.world.centerX, 310, 'buttons', 'states/play/0001.png');
+		var menu_btn = game.add.sprite(game.world.centerX, 310, 'buttons', 'basic/0000.png');
+		menu_btn.anchor.set(0.5);
+		menu_btn.inputEnabled = true;
+
+		menu_btn.events.onInputDown.add(function() {
+            if (isOpen) {
+                menu_btn.frameName = 'basic/0000.png';
+                home_btn.visible = false;
+                shop_btn.visible = false;
+            }
+            else {
+                menu_btn.frameName = 'basic/0001.png';
+                home_btn.visible = true;
+                shop_btn.visible = true;
+            }
+
+			isOpen = !(isOpen);
+			
+		}, this);
+		
+		var home_btn = game.add.sprite(game.world.centerX - 60, 310 - 40, 'buttons', 'states/play/0000.png');
+		home_btn.anchor.set(0.5);
+		home_btn.inputEnabled = true;
+		home_btn.visible = false;
+
+		home_btn.events.onInputDown.add(function() {
+            this.game.state.start('home');
+        }, this);   
+
+		var shop_btn = game.add.sprite(game.world.centerX + 60, 310 - 40, 'buttons', 'states/play/0001.png');
 		shop_btn.anchor.set(0.5);
 		shop_btn.inputEnabled = true;
+		shop_btn.visible = false;
 
 		/* SHOP AREA */
 		shop_area = game.add.graphics(game.world.centerX, game.world.height + game.world.centerY);
