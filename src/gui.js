@@ -236,7 +236,7 @@ var GUI = function(game) {
 		tap_area.endFill();
 		tap_area.inputEnabled = true;
 
-		var shop_btn = game.add.sprite(game.world.centerX, 310, 'shop_btn');
+		var shop_btn = game.add.sprite(game.world.centerX, 310, 'buttons', 'states/play/0001.png');
 		shop_btn.anchor.set(0.5);
 		shop_btn.inputEnabled = true;
 
@@ -247,7 +247,7 @@ var GUI = function(game) {
 		shop_area.endFill();
 		shop_area.inputEnabled = true;
 
-		var close_btn = game.add.sprite(0, 130, 'close_btn');
+		var close_btn = game.add.sprite(0, 130, 'buttons', 'basic/0001.png');
 		close_btn.anchor.set(0.5);
 		close_btn.inputEnabled = true;
 

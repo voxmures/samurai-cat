@@ -13,8 +13,9 @@
 
     <!-- Game scripts -->
     <script src="src/gui.js"></script>
-    <script src="src/preload.js"></script>
-    <script src="src/play.js"></script>
+    <script src="src/states/preload.js"></script>
+    <script src="src/states/play.js"></script>
+    <script src="src/states/home.js"></script>
     <script src="src/game.js"></script>
 
     <script src="src/main.js"></script>
@@ -24,6 +25,24 @@
 
 <body>
     <div id="main"></div>
+
+    <script>
+        // (function() {
+        //     if (!window.navigator.userAgent.includes('Tizen')) {
+        //         console.warn('DEBUG:', 'Rotary bezel simulation active');
+        //         document.addEventListener('keydown', function(ev) {
+        //             switch(ev.keyCode) {
+        //                 case 74:
+        //                     rotate('CCW');
+        //                     break;
+        //                 case 75:
+        //                     rotate('CW');
+        //                     break;
+        //             }
+        //         });
+        //     }
+        // })();
+    </script>
 </body>
 
 </html>
