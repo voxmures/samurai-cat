@@ -5,6 +5,8 @@ var preloadState = function(game) {
 var preload = function() {
 	game.load.image('coin', 'assets/images/coin.png');
 	game.load.image('soldout', 'assets/images/soldout.png');
+	game.load.image('empty_heart', 'assets/images/empty_heart.png');
+	game.load.image('heart', 'assets/images/heart.png');
 	game.load.atlasJSONHash('numbers', 'assets/images/numbers.png', 'assets/images/numbers.json');
 	game.load.atlasJSONHash('buttons', 'assets/images/buttons.png', 'assets/images/buttons.json');
 
