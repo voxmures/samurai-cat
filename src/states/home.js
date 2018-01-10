@@ -2,6 +2,8 @@ var homeState = function(game) {
 
 };
 
+var lastTick = 0;
+
 var hungry = 1,
     happiness = 3,
     discipline = 3;
@@ -15,23 +17,36 @@ var paintScreenLimits = function(game) {
     g.drawCircle(0, 0, window.innerWidth);
 };
 
-
 /* State control methods */
 var create = function() {
     var game = this;
     game.stage.backgroundColor = '#73BFB8';
-
+    
     /*   Only for DEVELOPMENT    */
     /* Remove before publishing! */
     paintScreenLimits(game);
     /* ------------------------- */
-
+    
     var menu = new menuComponent(game);
     menu.init();
+    // this.game.global.getTick().timer = new Phaser.Timer(this, false);
+    // this.game.global.getTick().timer.start();
+};
+
+var update = function() {
+    var game = this;
+
+    var currentTick = this.game.global.getTick();
+    var elapsedTick = currentTick - lastTick;
+    if (elapsedTick > 0) {
+        // TODO: Do the changes in player's properties
+        lastTick = currentTick;
+    }
 };
 
 homeState.prototype = {
-    create: create
+    create: create,
+    update: update
 };
 
 var menuComponent = function(game) {

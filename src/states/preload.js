@@ -13,6 +13,7 @@ var preload = function() {
 };
 
 var create = function() {
+	this.game.global = new Global(this.game);
 	game.state.start('home');
 }
 

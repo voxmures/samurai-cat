@@ -128,6 +128,13 @@ var create = function() {
 	GUI(game);	// Set the GUI
 };
 
+var update = function() {
+	var game = this;
+
+	this.game.global.getTick();
+}
+
 playState.prototype = {
-	create: create
+	create: create,
+	update: update
 };
