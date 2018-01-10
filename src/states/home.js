@@ -44,6 +44,9 @@ var create = function() {
     paintScreenLimits(game);
     /* ------------------------- */
     
+    var cat = game.add.sprite(game.world.centerX, game.world.centerY, 'idle_cat');
+    cat.anchor.set(0.5);
+    
     var menu = new menuComponent(game);
     menu.init();
 };

@@ -7,6 +7,10 @@ var preload = function() {
 	game.load.image('soldout', 'assets/images/soldout.png');
 	game.load.image('empty_heart', 'assets/images/empty_heart.png');
 	game.load.image('heart', 'assets/images/heart.png');
+	game.load.image('wood', 'assets/images/wood.png');
+	game.load.image('idle_cat', 'assets/images/idle_cat.png');
+	game.load.image('cat_attack_0', 'assets/images/cat_attack_0.png');
+	game.load.image('cat_attack_1', 'assets/images/cat_attack_1.png');
 	game.load.atlasJSONHash('numbers', 'assets/images/numbers.png', 'assets/images/numbers.json');
 	game.load.atlasJSONHash('buttons', 'assets/images/buttons.png', 'assets/images/buttons.json');
 

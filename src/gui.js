@@ -1,3 +1,6 @@
+var cat_sprite_0 = null,
+	cat_sprite_1 = null;
+
 var GUI = function(game) {
 	this.game = game;
 
@@ -237,6 +240,15 @@ var GUI = function(game) {
 		tap_area.drawCircle(0, 0, game.world.width);
 		tap_area.endFill();
 		tap_area.inputEnabled = true;
+
+		var wood = game.add.sprite(game.world.centerX - 100, game.world.centerY, 'wood');
+		wood.anchor.set(0.5);
+
+		cat_sprite_0 = game.add.sprite(game.world.centerX + 50, game.world.centerY, 'cat_attack_0');
+		cat_sprite_0.anchor.set(0.5);
+		cat_sprite_1 = game.add.sprite(game.world.centerX + 50, game.world.centerY, 'cat_attack_1');
+		cat_sprite_1.anchor.set(0.5);
+		cat_sprite_1.visible = false;
 
 		var menu_btn = game.add.sprite(game.world.centerX, 310, 'buttons', 'basic/0000.png');
 		menu_btn.anchor.set(0.5);

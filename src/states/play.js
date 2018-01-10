@@ -84,6 +84,13 @@ function tap() {
 	gui.paintExp(temp, critic);
 
 	checkExp();
+
+	cat_sprite_0.visible = false;
+	cat_sprite_1.visible = true;
+	game.time.events.add(Phaser.Timer.HALF / 4, function() {
+		cat_sprite_0.visible = true;
+		cat_sprite_1.visible = false;
+	}, this);
 }
 
 function buyItem(index) {
@@ -130,7 +137,6 @@ var create = function() {
 
 var update = function() {
 	var game = this;
-
 	this.game.global.getTick();
 }
 
